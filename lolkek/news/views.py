@@ -1,6 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView
-from django.urls import reverse_lazy
 
 from .models import News, Category
 from .forms import NewsForm
@@ -17,7 +15,7 @@ class HomeNews(ListView):
         return context
 
     def get_queryset(self):
-        return News.objects.filter(is_published=True)
+        return News.objects.filter(is_published=True).select_related('category')
 
 
 class NewsByCategory(ListView):
@@ -33,7 +31,7 @@ class NewsByCategory(ListView):
 
     def get_queryset(self):
         return News.objects.filter(category_id=self.kwargs['pk'],
-                                   is_published=True)
+                                   is_published=True).select_related('category')
 
 
 class ViewNews(DetailView):
