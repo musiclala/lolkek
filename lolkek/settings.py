@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -122,6 +123,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
@@ -134,3 +137,9 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'newboxforspam@gmail.com'
+EMAIL_HOST_PASSWORD = 'Jcnhjdltcznbytuhbnzn321'
+EMAIL_USE_SSL = True

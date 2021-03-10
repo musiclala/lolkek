@@ -1,6 +1,7 @@
 body {
-    background-color: #657ccf;
+    background-color: #bcc8f1;
 }
-.span-right {
-    text-align: center;
+
+.errorlist {
+    color:red;
 }
