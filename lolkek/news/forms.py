@@ -1,16 +1,21 @@
+import re
+
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import News
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-
 from django.contrib.auth.models import User
-import re
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from captcha.fields import CaptchaField
+
+from .models import News
 
 
 class ContactForm(forms.Form):
+    username = forms.CharField(label='Ваше имя', widget=forms.TextInput())
     email = forms.EmailField(label='Ваш емаил', widget=forms.EmailInput())
     subject = forms.CharField(label='Тема', widget=forms.TextInput())
     content = forms.CharField(label='Текст', widget=forms.Textarea())
+    captcha = CaptchaField()
 
 
 class UserLoginForm(AuthenticationForm):
@@ -30,12 +35,13 @@ class UserRegisterForm(UserCreationForm):
 
 
 class NewsForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorUploadingWidget, label='Текст')
+
     class Meta:
         model = News
         fields = ['title', 'content', 'is_published', 'category', 'photo']
         widgets = {
             'title': forms.TextInput(),
-            'content': forms.Textarea(),
             'category': forms.Select(),
             'photo': forms.ClearableFileInput(),
         }

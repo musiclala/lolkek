@@ -6,31 +6,11 @@ from .utils import MixinForCategory
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login
 from django.contrib.auth.views import LogoutView
-from django.core.mail import send_mail, EmailMessage
+from django.core.mail import send_mail
 from django.conf import settings
-from django.template.loader import render_to_string
 
 from .models import News, Category
 from .forms import NewsForm, UserRegisterForm, UserLoginForm, ContactForm
-
-
-# def test(request):
-#     if request.method == 'POST':
-#         form = ContactForm(request.POST)
-#         if form.is_valid():
-#             mail = send_mail(form.cleaned_data['subject'],
-#                              form.cleaned_data['content'],
-#                              settings.EMAIL_HOST_USER,
-#                              ['r.misa2017@gmail.com'],
-#                              fail_silently=False)
-#             if mail:
-#                 messages.success(request, 'Форма отправлена!')
-#                 return redirect('test')
-#             else:
-#                 messages.error(request, 'ОШибка')
-#     else:
-#         form = ContactForm()
-#     return render(request, 'news/test.html', {'form': form})
 
 
 class SendEmailSupport(MixinForCategory, FormView):
@@ -40,16 +20,14 @@ class SendEmailSupport(MixinForCategory, FormView):
     mixin_title = 'Написать нам'
 
     def form_valid(self, form):
-
-        subject = 'Сообщение от {}, email: {}. На тему {}'.format(self.request.user.username,
-                                                                  self.request.user.email,
+        subject = 'Сообщение от {}, email: {}. На тему {}'.format(form.cleaned_data['username'],
+                                                                  form.cleaned_data['email'],
                                                                   form.cleaned_data['subject'])
         mail = send_mail(subject,
                          form.cleaned_data['content'],
                          settings.EMAIL_HOST_USER,
                          ['r.misa2017@gmail.com'],
-                         fail_silently=False,)
-
+                         fail_silently=False, )
         if mail:
             messages.success(self.request, 'Форма отправлена!')
             return redirect('test')

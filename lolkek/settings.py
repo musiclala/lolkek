@@ -41,7 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_cleanup',
     'debug_toolbar',
+    'ckeditor',
+    'ckeditor_uploader',
+    'captcha',
     'lolkek.news.apps.NewsConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -125,11 +129,12 @@ USE_TZ = True
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+
 STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
-
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
@@ -143,3 +148,12 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'newboxforspam@gmail.com'
 EMAIL_HOST_PASSWORD = 'Jcnhjdltcznbytuhbnzn321'
 EMAIL_USE_SSL = True
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(PROJECT_ROOT, 'django_cache'),
+    }
+}
